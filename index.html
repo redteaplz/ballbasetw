@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Google Apps Script Data</title>
+<title>Google App Script Web App</title>
 </head>
 <body>
-  <div id="data-container"></div>
+  <h1>Product List</h1>
+  <table id="productTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
   <script>
-    // Web 應用程式網址
-    var webAppUrl = "https://script.google.com/macros/s/AKfycbxvAd45tzcAyLATz_NBIcDr5HHeJI0DbcBjHGlqCz7xFu8LoGScV46J2GlXs-gNB3Oq0Q/exec"; // 將 YOUR_WEB_APP_URL 替換成你的 Web 應用程式網址
+    // 替換成你的 Web App URL
+    const webAppUrl = "https://script.google.com/macros/s/AKfycby9sCa-wihHccQz4HUk5r8CS3sqjjHiOiwSSx9bqEw6jqGTemnKjyoFerd_Alni_mbTMQ/exec";
 
-    // 發送 GET 請求
     fetch(webAppUrl)
       .then(response => response.json())
       .then(data => {
-        // 取得資料容器
-        var dataContainer = document.getElementById("data-container");
+        const tableBody = document.querySelector("#productTable tbody");
 
-        // 顯示資料
-        var nameElement = document.createElement("h2");
-        nameElement.textContent = data.name;
-        dataContainer.appendChild(nameElement);
+        data.forEach(product => {
+          const row = tableBody.insertRow();
+          const idCell = row.insertCell();
+          const nameCell = row.insertCell();
+          const priceCell = row.insertCell();
 
-        var ageElement = document.createElement("p");
-        ageElement.textContent = "Age: " + data.age;
-        dataContainer.appendChild(ageElement);
-
-        var cityElement = document.createElement("p");
-        cityElement.textContent = "City: " + data.city;
-        dataContainer.appendChild(cityElement);
-
-        var hobbiesElement = document.createElement("ul");
-        data.hobbies.forEach(hobby => {
-          var hobbyItem = document.createElement("li");
-          hobbyItem.textContent = hobby;
-          hobbiesElement.appendChild(hobbyItem);
+          idCell.textContent = product.id;
+          nameCell.textContent = product.name;
+          priceCell.textContent = product.price;
         });
-        dataContainer.appendChild(hobbiesElement);
       })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
+      .catch(error => console.error("Error fetching data:", error));
   </script>
 </body>
 </html>
