@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Google Sheet Data</title>
+<title>Google Apps Script Data</title>
 </head>
 <body>
   <div id="data-container"></div>
 
   <script>
     // Web 應用程式網址
-    var webAppUrl = "https://script.google.com/macros/s/AKfycbzAhFFW3EvgLrJkSBCLlUAvi1tHhhlE1Vt7Yno_yIaJEn8pePm3xBFZ_MdessJPAAyasg/exec"; // 將 YOUR_WEB_APP_URL 替換成你的 Web 應用程式網址
+    var webAppUrl = "YOUR_WEB_APP_URL"; // 將 YOUR_WEB_APP_URL 替換成你的 Web 應用程式網址
 
     // 發送 GET 請求
     fetch(webAppUrl)
@@ -18,15 +18,25 @@
         var dataContainer = document.getElementById("data-container");
 
         // 顯示資料
-        data.forEach(row => {
-          var rowDiv = document.createElement("div");
-          row.forEach(cell => {
-            var cellDiv = document.createElement("div");
-            cellDiv.textContent = cell;
-            rowDiv.appendChild(cellDiv);
-          });
-          dataContainer.appendChild(rowDiv);
+        var nameElement = document.createElement("h2");
+        nameElement.textContent = data.name;
+        dataContainer.appendChild(nameElement);
+
+        var ageElement = document.createElement("p");
+        ageElement.textContent = "Age: " + data.age;
+        dataContainer.appendChild(ageElement);
+
+        var cityElement = document.createElement("p");
+        cityElement.textContent = "City: " + data.city;
+        dataContainer.appendChild(cityElement);
+
+        var hobbiesElement = document.createElement("ul");
+        data.hobbies.forEach(hobby => {
+          var hobbyItem = document.createElement("li");
+          hobbyItem.textContent = hobby;
+          hobbiesElement.appendChild(hobbyItem);
         });
+        dataContainer.appendChild(hobbiesElement);
       })
       .catch(error => {
         console.error("Error fetching data:", error);
